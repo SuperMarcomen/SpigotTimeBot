@@ -2,15 +2,10 @@ package it.marcodemartino.spigottimebot;
 
 import io.github.ageofwar.telejam.Bot;
 import io.github.ageofwar.telejam.LongPollingBot;
-import io.github.ageofwar.telejam.text.Text;
+import it.marcodemartino.spigottimebot.commands.Set;
 import it.marcodemartino.spigottimebot.commands.Verificati;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SpigotTimeBot extends LongPollingBot {
 
@@ -28,12 +23,9 @@ public class SpigotTimeBot extends LongPollingBot {
     public SpigotTimeBot(Bot bot) throws IOException {
         super(bot);
 
-        events.registerCommand(new Verificati(bot, Text.parseHtml(getLinesFromFile("message_verificati.txt"))), "verificati");
+        events.registerCommand(new Verificati(bot), "verificati");
+        events.registerCommand(new Set(bot), "set");
+
     }
 
-    private String getLinesFromFile(String fileName) throws IOException {
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            return stream.collect(Collectors.joining("\n"));
-        }
-    }
 }
